@@ -1,0 +1,221 @@
+<html class="uk-notouch">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+		<link rel="stylesheet" type="text/css" href="../../static/css/uikit.gradient.min.css">
+		<link rel="stylesheet" type="text/css" href="../../static/css/jPages.css">
+		<link rel="stylesheet" type="text/css" href="../../static/css/components/sticky.css">
+		<script type="text/javascript" src="../../static/js/jquery.js"></script>
+		<script type="text/javascript" src="../../static/js/jPages.js"></script>
+		<script type="text/javascript" src="../../static/js/uikit.js"></script>
+		<script>
+		$(function(){
+		$("div.holder").jPages({
+		containerID : "itemContainer",
+		previous : "←",
+		next : "→",
+		perPage : 3,
+		delay : 10
+		});
+		});
+		</script>
+		<style type="text/css">
+		li {list-style-type:none;}
+		a:hover, a:active {
+		text-decoration: none;
+		}
+		</style>
+	</head>
+	<body>
+		<div class="uk-container uk-container-center" style="min-height:701px">
+			<div class="uk-margin-top uk-margin-bottom uk-margin-left uk-margin-right" data-uk-sticky>
+				<nav class="uk-navbar uk-navbar-attached uk-margin-bottom" style="border-radius:10px;">
+					<ul class="uk-navbar-nav uk-hidden-small" >
+						<li class="uk-margin-left">
+							<a href="/!{{username}}">
+							<i class="uk-icon-home"></i>   Home</a>
+						</li>
+						<li>
+							<a href="/writeblog/!{{username}}">
+							<i class="uk-icon-globe"></i>   Blog</a>
+						</li>
+					</ul>
+					<div class="uk-navbar-flip uk-navbar-content uk-hidden-small">
+						<ul class="uk-navbar-nav uk-hidden-small" >
+							{% if username %}
+								<li class="uk-parent" data-uk-dropdown>
+									<a >
+										<i class="uk-icon-user"></i>{{username}}
+									</a>
+									<div class="uk-dropdown uk-dropdown-navbar uk-dropdown-flip">
+										<ul class="uk-nav uk-nav-navbar">
+											<li>
+												<a href="/user/{{username}}">
+													<i class="uk-icon-cog"></i>
+													Management
+												</a>
+											</li>
+											<li>
+												<a href="/so">
+													<i class="uk-icon-sign-out"></i>
+													Sign-out
+												</a>
+											</li>
+										</ul>
+									</div>
+								</li>
+							{% else %}
+								<li>
+									<a href="/s">
+										<i class="uk-icon-sign-in"></i>
+										Sign-in
+									</a>
+								</li>
+								<li >
+									<a href="/r">
+										<i class="uk-icon-plus"></i>
+										Register
+									</a>
+								</li>
+							{% endif %}
+						</ul>
+					</div>
+				</nav>
+			</div>
+			<div class="uk-container-center uk-margin-top uk-margin-bottom uk-margin-left uk-margin-right">
+				<div class="uk-grid uk-text--center uk-align-center">
+					<div class="uk-width-medium-3-4 uk-float-left">
+						<article class="uk-article">
+							<div class="uk-grid">
+								<h1 class="uk-article-title uk-width-9-10">
+								{{article['title']}}
+								</h1>
+								{% if username %}
+									{% if article['hasstared'] %}
+										<div><i class="uk-icon-star" data-uk-tooltip title="{{article['star']}} star this article">               {{article['star']}}</i></div>
+									{% else %}
+										<a href="/star/{{article['title']}}/{{username}}"><i class="uk-icon-star-o" type="submit" data-uk-tooltip title="{{article['star']}} star this article">               {{article['star']}}</i></a>
+									{% endif %}
+								{% else %}
+									<div><i class="uk-icon-star-o" data-uk-tooltip title="{{article['star']}} star this article">               {{article['star']}}</i></div>
+								{% endif %}
+							</div>
+							<p class="uk-article-meta">
+							Publish at {{article['date']}} by {{article['userid']}}
+							</p>
+							<h3 class="uk-article-lead">
+							{{article['abstract']}}
+							</h3>
+							<h3>
+							{% for c in article['content'].split('\r\n') %}
+								{{c}}<br>
+							{% endfor %}
+							</h3>
+						</article>
+						<hr class="uk-article-divider">
+						{% if username %}
+							<h2>
+							Leave a comment
+							</h2>
+							<article class="uk-comment">
+								<div class="uk-comment-header">
+									<div class="uk-grid uk-grid-preserve" style="margin-left:-15px">
+										<div class="uk-width-1-1">
+											<img class="uk-border-circle uk-comment-avatar uk-margin-bottom" width="50" height="50" src="../../{{commneteravatarpath}}">
+											<h4 class="uk-comment-title">{{username}}</h4>
+										</div>
+									</div>
+									<div class="uk-comment-body">
+										<form class="uk-form" method="post" action="/c/{{article['title']}}/{{username}}">
+											<div class="uk-form-row">
+												<textarea row="7" style="width:120%;overflow-y:visible" onpropertychange="this.style.posHeight=this.scrollHeight" placeholder="Say something" name="content"></textarea>
+											</div>
+											<div class="uk-form-row">
+												<button type="submit" class="uk-button uk-button-primary">
+												<i class="uk-icon-comment"></i>
+												Leave a comment
+												</button>
+											</div>
+										</form>
+									</div>
+								</div>
+							</article>
+						{% else %}
+							<h2>
+							Please <a href="/s">signin</a>
+							</h2>
+						{% endif %}
+						<hr class="uk-article-divider">
+						{% if comments %}
+							<h3>Last comments</h3>
+							<ul id="itemContainer" class="uk-comment-list">
+								{% for comment in comments %}
+									<li>
+										<article class="uk-comment">
+											<header class="uk-comment-header">
+												<img  class="uk-border-circle uk-comment-avatar" width=50 height=50 src="../../{{comment['avatar']}}">
+												<h4 class="uk-comment-title">{{comment['userid']}}</h4>
+												<p class="uk-comment-meta">At {{comment['date']}}</p>
+											</header>
+											<div class="uk-comment-body">
+												{% for c in comment['content'].split('\r\n') %}
+													{{c}}<br>
+												{% endfor %}
+											</div>
+										</article>
+										<hr class="uk-article-divider">
+									</li>
+								{% endfor %}
+							</ul>
+							<div class="holder"></div>
+						{% else %}
+							<h3>No comments</h3>
+						{% endif %}
+					</div>
+					<div class="uk-width-medium-1-4 uk-text-right">
+						<div class="uk-panel uk-panel-box uk-text-center">
+							<img class="uk-border-circle" width="150" height="150" src="../../{{publisheravatarpath}}">
+							<h3>Author : {{article['userid']}}</h3>
+						</div>
+						<div class="uk-panel uk-panel-box">
+							<h4>They like this article</h4>
+							<hr class="uk-article-divider">
+							{% if stareduser %}
+								<div class="uk-grid">
+									{% for user in stareduser %}
+										<div class="uk-width-1-3">
+											<div class="uk-border-circle uk-thumbnail uk-overlay-toggle uk-overlay">
+												<img class="uk-border-circle uk-comment-avatar" src="../../{{user['avatarname']}}" data-uk-tooltip title="{{user['username']}}">
+											</div>
+										</div>
+									{% endfor %}
+								</div>
+							{% else %}
+							{% endif %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="uk-margin-large-top tm-footer" style="background-color:#000">
+			<div class="uk-container uk-container-center uk-text-center">
+				<div class="uk-panel uk-margin-top uk-margin-bottom">
+					<p>
+					<a href="http://weibo.com/u/3173976713" target="blank" class="uk-icon-button uk-icon-weibo"></a>
+					<a href="https://github.com/10123815" target="blank" class="uk-icon-button uk-icon-github"></a>
+					<a href="https://plus.google.com/u/0/104142513785202963625/posts/p/pub" target="blank" class="uk-icon-button uk-icon-google-plus"></a>
+					<a href="http://www.w3.org/TR/html5/" target="blank" class="uk-icon-button uk-icon-html5"></a>
+					</p>
+					<br>
+					Made by YOOtheme with love and caffeine.<br>
+					Licensed under MIT license.<br>
+					UIkit中文网翻译<br>
+					<div class="uk-margin-top uk-margin-bottom">
+						<a href="http://www.getuikit.net/" target="blank">
+							<img src="http://www.getuikit.net/docs/images/logo_uikit.svg">
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

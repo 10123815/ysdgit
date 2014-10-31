@@ -1,0 +1,60 @@
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" type="text/css" href="../static/css/uikit.gradient.min.css">
+	<script type="text/javascript" src="../static/js/uikit.js"></script>
+	<link rel="stylesheet" type="text/css" href="../static/css/jPages.css">
+	<script type="text/javascript" src="../static/js/jquery.js"></script>
+	<script type="text/javascript" src="../static/js/jPages.js"></script>
+	<script>
+	$(function(){
+	$("div.holder").jPages({
+	containerID : "itemContainer",
+	previous : "←",
+	next : "→",
+	perPage : 4,
+	delay : 10
+	});
+	});
+	</script>
+	<style type="text/css">
+	li {list-style-type:none;}
+	a:hover, a:active {
+	text-decoration: none;
+	}
+	</style>
+	<script type="text/javascript">
+	function changeHeight(){
+		var e = parent.document.getElementsByName("ifr")[0]
+		alert(e.contentWindow.document.documentElement.scrollHeight)
+		e.style.height = document.getElementById("body").style.height
+	}
+	</script>
+</head>
+<body >
+	<ul id="itemContainer">
+		{% for article in articles %}
+			<li>
+				<article class="uk-article">
+					<h1 class="uk-article-title">
+					<a href="/detail/{{article['title']}}/!{{username}}" target="ifr">
+						{{article['title']}}
+					</a>
+					</h1>
+					<p class="uk-article-meta">
+					Publish at {{article['date']}} by {{article['userid']}}
+					</p>
+					<p class="uk-article-lead">
+					{{article['abstract']}}
+					</p>
+					<p>
+					<a href="/detail/{{article['title']}}/!{{username}}" target="ifr">
+						Read more  <i class="uk-icon-angle-double-right"></i>
+					</a>
+					</p>
+				</article>
+				<hr class="uk-article-divider">
+			</li>
+		{% endfor %}
+	</ul>
+	<div class="holder"></div>
+</body>

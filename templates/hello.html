@@ -1,0 +1,170 @@
+<html class="uk-notouch">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+        <link rel="stylesheet" type="text/css" href="static/css/uikit.gradient.min.css">
+        <link rel="stylesheet" type="text/css" href="static/css/jPages.css">
+        <link rel="stylesheet" type="text/css" href="/static/css/components/sticky.css">
+        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script type="text/javascript" src="static/js/jPages.js"></script>
+        <script type="text/javascript" src="static/js/uikit.js"></script>
+        <script type="text/javascript" src="static/js/components/search.js"></script>
+        <script>
+        $(function() {
+        $("div.holder").jPages({
+        containerID: "itemContainer",
+        previous: "←",
+        next: "→",
+        perPage: 5,
+        delay: 10,
+        });
+        });
+        </script>
+        <style type="text/css">
+        li {
+        list-style-type: none;
+        }
+        a:hover,
+        a:active {
+        text-decoration: none;
+        }
+        </style>
+        <style type="text/css">
+        #star: hover {}
+        </style>
+    </head>
+    <body id="wapper">
+        <div id="main" class="uk-container uk-container-center" style="min-Height:701px">
+            <div class="uk-margin-top uk-margin-bottom uk-margin-left uk-margin-right" data-uk-sticky>
+                <nav class="uk-navbar uk-navbar-attached uk-margin-bottom" style="border-radius:10px;">
+                    <ul class="uk-navbar-nav uk-hidden-small">
+                        <li class="uk-margin-left uk-active" name="blog" id="dis">
+                            <a href="/!{{username}}">
+                            <i class="uk-icon-home"></i> Home</a>
+                        </li>
+                        <li class="" name="blog" id="wrt">
+                            <a href="/writeblog/!{{username}}">
+                            <i class="uk-icon-globe"></i> Blog</a>
+                        </li>
+                    </ul>
+                    <div  class="uk-navbar-flip uk-navbar-content uk-hidden-small">
+                        <ul class="uk-navbar-nav uk-hidden-small">
+                            {% if username %}
+                                <li class="uk-parent" data-uk-dropdown>
+                                    <a>
+                                        <i class="uk-icon-user"></i>{{username}}
+                                    </a>
+                                    <div class="uk-dropdown uk-dropdown-navbar uk-dropdown-flip">
+                                        <ul class="uk-nav uk-nav-navbar">
+                                            <li>
+                                                <a href="/user/{{username}}">
+                                                    <i class="uk-icon-cog"></i>
+                                                    Management
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="/so">
+                                                    <i class="uk-icon-sign-out"></i>
+                                                    Sign-out
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <a href="/s">
+                                        <i class="uk-icon-sign-in"></i>
+                                        Sign-in
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/r">
+                                        <i class="uk-icon-plus"></i>
+                                        Register
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+            <div class="uk-margin-top uk-margin-bottom">
+                <div class="uk-grid">
+                    <div class="uk-width-medium-3-4">
+                        {% if info %}
+                            <h1 class="uk-text-bold uk-text-large uk-text-warning">{{info}}</h1>
+                        {% else %}
+                            <ul id="itemContainer">
+                                {% for article in articles %}
+                                    <li>
+                                        <article class="uk-article">
+                                            <div class="uk-grid">
+                                                <h1 class="uk-article-title uk-width-9-10">
+                                                <a href="/detail/{{article['title']}}/!{{username}}">
+                                                    {{article['title']}}
+                                                </a>
+                                                </h1>
+                                                {% if username %} {% if article['hasstared'] %}
+                                                    <div><i class="uk-icon-star" data-uk-tooltip title="{{article['star']}} star this article">               {{article['star']}}</i>
+                                                    </div>
+                                                {% else %}
+                                                    <a href="/star/{{article['title']}}/{{username}}"><i class="uk-icon-star-o" type="submit" data-uk-tooltip title="{{article['star']}} star this article">               {{article['star']}}</i></a>
+                                                {% endif %} {% else %}
+                                                <div><i class="uk-icon-star-o" type="submit" data-uk-tooltip title="{{article['star']}} star this article">               {{article['star']}}</i>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                        <p class="uk-article-meta">
+                                        Publish at {{article['date']}} by {{article['userid']}}
+                                        </p>
+                                        <p class="uk-article-lead">
+                                        {{article['abstract']}}
+                                        </p>
+                                        <p>
+                                        <a href="/detail/{{article['title']}}/!{{username}}">
+                                            Read more  <i class="uk-icon-angle-double-right"></i>
+                                        </a>
+                                        </p>
+                                    </article>
+                                    <hr class="uk-article-divider">
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <div class="uk-panel uk-panel-box uk-container-center uk-margin-left">
+                            <div class="holder uk-text-center"></div>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="uk-width-medium-1-4 uk-text-right">
+                    <form class="uk-search uk-form-icon" data-uk-search method="post" action="/search/!{{username}}">
+                        <i class="uk-icon-search"></i>
+                        <input type="search" placeholder="search. . ." border="0" name="key">
+                        </input>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="footer" class="uk-margin-large-top tm-footer" style="background-color:#000">
+        <div class="uk-container uk-container-center uk-text-center">
+            <div class="uk-panel uk-margin-top uk-margin-bottom">
+                <p>
+                <a href="http://weibo.com/u/3173976713" target="blank" class="uk-icon-button uk-icon-weibo"></a>
+                <a href="https://github.com/10123815" target="blank" class="uk-icon-button uk-icon-github"></a>
+                <a href="https://plus.google.com/u/0/104142513785202963625/posts/p/pub" target="blank" class="uk-icon-button uk-icon-google-plus"></a>
+                <a href="http://www.w3.org/TR/html5/" target="blank" class="uk-icon-button uk-icon-html5"></a>
+                </p>
+                <br>Made by YOOtheme with love and caffeine.
+                <br>Licensed under MIT license.
+                <br>UIkit中文网翻译
+                <br>
+                <div class="uk-margin-top uk-margin-bottom">
+                    <a href="http://www.getuikit.net/" target="blank">
+                        <img src="http://www.getuikit.net/docs/images/logo_uikit.svg">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<html class="uk-notouch">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+		<link rel="stylesheet" type="text/css" href="../static/css/uikit.gradient.min.css">
+		<link rel="stylesheet" type="text/css" href="../static/css/components/notify.css">
+		<link rel="stylesheet" type="text/css" href="../static/css/components/notify.gradient.css">
+		<script type="text/javascript" src="../static/js/jquery.js"></script>
+		<script type="text/javascript" src="../static/js/uikit.js"></script>
+		<script type="text/javascript" src="../static/js/components/notify.js"></script>
+		<script type="text/javascript">
+		
+		$(function(){
+		$("body").on("click", ".uk-button[data-message]", function(){
+		var v = document.getElementById("sub");
+		if(v.value!="")
+		$.UIkit.notify({
+			message : 'Submit Success',
+			status : 'success',
+			timeout : 2000,
+			pos : 'top-center',
+		});
+		});
+		})
+		
+		</script>
+	</head>
+	<body>
+		<div class="uk-container uk-container-center" style="min-Height:701px">
+			<div class="uk-margin-top uk-margin-bottom uk-margin-left uk-margin-right">
+				<nav class="uk-navbar uk-navbar-attached uk-margin-bottom" style="border-radius:10px;">
+					<ul class="uk-navbar-nav uk-hidden-small" >
+						<li class="uk-margin-left">
+							<a href="/!{{username}}">
+							<i class="uk-icon-home"></i>   Home</a>
+						</li>
+						<li class="uk-active">
+							<a href="/writeblog/!{{username}}">
+							<i class="uk-icon-globe"></i>   Blog</a>
+						</li>
+					</ul>
+					<div class="uk-navbar-flip uk-navbar-content uk-hidden-small">
+						<ul class="uk-navbar-nav uk-hidden-small" >
+							{% if username %}
+								<li class="uk-parent" data-uk-dropdown>
+									<a >
+										<i class="uk-icon-user"></i>{{username}}
+									</a>
+									<div class="uk-dropdown uk-dropdown-navbar uk-dropdown-flip">
+										<ul class="uk-nav uk-nav-navbar">
+											<li>
+												<a href="/user/{{username}}">
+													<i class="uk-icon-cog"></i>
+													Management
+												</a>
+											</li>
+											<li>
+												<a href="/so">
+													<i class="uk-icon-sign-out"></i>
+													Sign-out
+												</a>
+											</li>
+										</ul>
+									</div>
+								</li>
+							{% else %}
+								<li>
+									<a href="/s">
+										<i class="uk-icon-sign-in"></i>
+										Sign-in
+									</a>
+								</li>
+								<li >
+									<a href="/r">
+										<i class="uk-icon-plus"></i>
+										Register
+									</a>
+								</li>
+							{% endif %}
+						</ul>
+					</div>
+				</nav>
+			</div>
+			<div class="uk-container-center uk-margin-top uk-margin-bottom uk-margin-left uk-margin-right">
+				<div class="uk-grid uk-text--center uk-align-center">
+					<div class="uk-width-medium-3-4 uk-float-left">
+						<div class="uk-width-1-1">
+							<form id="form-blog"  class="uk-form uk-form-stacked" method="post" action="/sb/{{username}}">
+								<div class="uk-form-row">
+									<div class="uk-form-controls">
+										<input id="sub" class="uk-width-1-1" placeholder="Title" name="title" required>
+									</div>
+								</div>
+								<div class="uk-form-row">
+									<div class="uk-form-controls">
+										<textarea col="50" rows="1" class="uk-width-1-1" name="abstract" placeholder="Abstract"></textarea>
+									</div>
+								</div>
+								<div class="uk-form-row">
+									<div class="uk-form-controls">
+										<textarea col="50" rows="10" class="uk-width-1-1" name="text" placeholder="Text"></textarea>
+									</div>
+								</div>
+								<div class="uk-form-row">
+									<button type="submit" class="uk-button uk-button-primary uk-button-large" data-message="">OK</button>
+									<button type="reset" class="uk-button uk-button-large">RESET</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="uk-margin-large-top tm-footer" style="background-color:#000">
+			<div class="uk-container uk-container-center uk-text-center">
+				<div class="uk-panel uk-margin-top uk-margin-bottom">
+					<p>
+					<a href="http://weibo.com/u/3173976713" target="blank" class="uk-icon-button uk-icon-weibo"></a>
+					<a href="https://github.com/10123815" target="blank" class="uk-icon-button uk-icon-github"></a>
+					<a href="https://plus.google.com/u/0/104142513785202963625/posts/p/pub" target="blank" class="uk-icon-button uk-icon-google-plus"></a>
+					<a href="http://www.w3.org/TR/html5/" target="blank" class="uk-icon-button uk-icon-html5"></a>
+					</p>
+					<br>
+					Made by YOOtheme with love and caffeine.<br>
+					Licensed under MIT license.<br>
+					UIkit中文网翻译<br>
+					<div class="uk-margin-top uk-margin-bottom">
+						<a href="http://www.getuikit.net/" target="blank">
+							<img src="http://www.getuikit.net/docs/images/logo_uikit.svg">
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,89 @@
+<html class="uk-notouch">
+	<head>
+		<link rel="stylesheet" type="text/css" href="static/css/uikit.gradient.min.css">
+		<link rel="stylesheet" type="text/css" href="static/css/jPages.css">
+		<script type="text/javascript" src="static/js/jquery.js"></script>
+		<script type="text/javascript" src="static/js/uikit.js"></script>
+		<script type="text/javascript" src="static/js/jPages.js"></script>
+		<script>
+		$(function(){
+		$("div.holder").jPages({
+		containerID : "itemContainer",
+		previous : "←",
+		next : "→",
+		perPage : 3,
+		delay : 100
+		});
+		});
+		</script>
+	</head>
+	<body>
+		<div class="uk-container-center uk-margin-top uk-margin-bottom uk-margin-left uk-margin-right">
+			<nav class="uk-navbar uk-navbar-attached uk-margin-bottom" style="border-radius:10px;">
+				<ul class="uk-navbar-nav uk-hidden-small" >
+					<li class="uk-margin-left" >
+						<a href="/">
+						<i class="uk-icon-home"></i>   Home</a>
+					</li>
+					<li class="uk-active">
+						<a href="/b">
+						<i class="uk-icon-globe"></i>   Blog</a>
+					</li>
+					<li>
+						
+					</li>
+				</ul>
+				<div class="uk-navbar-flip uk-navbar-content uk-hidden-small">
+					<ul class="uk-navbar-nav uk-hidden-small" >
+						{% if username %}
+							<li class="uk-parent" data-uk-dropdown>
+								<a href="">
+									<i class="uk-icon-user"></i>
+									{{username}}
+								</a>
+								<div class="uk-dropdown uk-dropdown-navbar uk-dropdown-flip">
+									<ul class="uk-nav uk-nav-navbar">
+										<li>
+											<a href="/so">
+												<i class="uk-icon-sign-out"></i>
+												Sign-out
+											</a>
+										</li>
+									</ul>
+								</div>
+							</li>
+						{% else %}
+							<li>
+								<a href="/s">
+									<i class="uk-icon-sign-in"></i>
+									Sign-in
+								</a>
+							</li>
+							<li >
+								<a href="/r">
+									<i class="uk-icon-plus"></i>
+									Register
+								</a>
+							</li>
+						{% endif %}
+					</ul>
+				</div>
+			</nav>
+		</div>
+		<div class="uk-container uk-container-center">
+			<div class="uk-grid">
+				<div class="uk-width-medium-3-4" align="left">
+					write
+				</div>
+				<div class="uk-width-medium-1-4" align="right">
+					<form class="uk-form uk-margin-remove ukdiplay-inline-block">
+						<input type="text" placeholder="Search" class="uk-form-small">
+						<button class="uk-button uk-button-big uk-button-primary uk-button-small">
+						<i class="uk-icon-search"></i>
+						</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
